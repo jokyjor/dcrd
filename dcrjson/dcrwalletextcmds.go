@@ -273,33 +273,35 @@ func NewListScriptsCmd() *ListScriptsCmd {
 // PurchaseTicketCmd is a type handling custom marshaling and
 // unmarshaling of purchaseticket JSON RPC commands.
 type PurchaseTicketCmd struct {
-	FromAccount        string
-	SpendLimit         float64 // In Coins
-	MinConf            *int    `jsonrpcdefault:"1"`
-	TicketAddress      *string
-	NumTickets         *int
-	PoolAddress        *string
-	PoolFees           *float64
-	Expiry             *int
-	Comment            *string
-	NoSplitTransaction *bool
+	FromAccount                      string
+	SpendLimit                       float64 // In Coins
+	MinConf                          *int    `jsonrpcdefault:"1"`
+	TicketAddress                    *string
+	NumTickets                       *int
+	PoolAddress                      *string
+	PoolFees                         *float64
+	Expiry                           *int
+	Comment                          *string
+	NoSplitTransaction               *bool
+	PurchaseTicketsSingleTransaction *bool
 }
 
 // NewPurchaseTicketCmd creates a new PurchaseTicketCmd.
 func NewPurchaseTicketCmd(fromAccount string, spendLimit float64, minConf *int,
 	ticketAddress *string, numTickets *int, poolAddress *string, poolFees *float64,
-	expiry *int, comment *string, noSplitTransaction *bool) *PurchaseTicketCmd {
+	expiry *int, comment *string, noSplitTransaction *bool, purchaseTicketsSingleTransaction *bool) *PurchaseTicketCmd {
 	return &PurchaseTicketCmd{
-		FromAccount:        fromAccount,
-		SpendLimit:         spendLimit,
-		MinConf:            minConf,
-		TicketAddress:      ticketAddress,
-		NumTickets:         numTickets,
-		PoolAddress:        poolAddress,
-		PoolFees:           poolFees,
-		Expiry:             expiry,
-		Comment:            comment,
-		NoSplitTransaction: noSplitTransaction,
+		FromAccount:                      fromAccount,
+		SpendLimit:                       spendLimit,
+		MinConf:                          minConf,
+		TicketAddress:                    ticketAddress,
+		NumTickets:                       numTickets,
+		PoolAddress:                      poolAddress,
+		PoolFees:                         poolFees,
+		Expiry:                           expiry,
+		Comment:                          comment,
+		NoSplitTransaction:               noSplitTransaction,
+		PurchaseTicketsSingleTransaction: purchaseTicketsSingleTransaction,
 	}
 }
 
