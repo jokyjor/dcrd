@@ -761,7 +761,7 @@ func (r FuturePurchaseTicketResult) Receive() ([]*chainhash.Hash, error) {
 func (c *Client) PurchaseTicketAsync(fromAccount string,
 	spendLimit dcrutil.Amount, minConf *int, ticketAddress dcrutil.Address,
 	numTickets *int, poolAddress dcrutil.Address, poolFees *dcrutil.Amount,
-	expiry *int, noSplitTransaction *bool, purchaseTicketsSingleTransaction *bool) FuturePurchaseTicketResult {
+	expiry *int, noSplitTransaction *bool, multiOutputSstx *bool) FuturePurchaseTicketResult {
 	// An empty string is used to keep the sendCmd
 	// passing of the command from accidentally
 	// removing certain fields. We fill in the
@@ -803,14 +803,14 @@ func (c *Client) PurchaseTicketAsync(fromAccount string,
 		noSplitTx = *noSplitTransaction
 	}
 
-	purchaseTicketsSingleTx := false
-	if purchaseTicketsSingleTransaction != nil {
-		purchaseTicketsSingleTx = *purchaseTicketsSingleTransaction
+	mstx := false
+	if multiOutputSstx != nil {
+		mstx = *multiOutputSstx
 	}
 
 	cmd := dcrjson.NewPurchaseTicketCmd(fromAccount, spendLimit.ToCoin(),
 		&minConfVal, &ticketAddrStr, &numTicketsVal, &poolAddrStr,
-		&poolFeesFloat, &expiryVal, dcrjson.String(""), &noSplitTx, &purchaseTicketsSingleTx)
+		&poolFeesFloat, &expiryVal, dcrjson.String(""), &noSplitTx, &mstx)
 
 	return c.sendCmd(cmd)
 }
@@ -820,10 +820,10 @@ func (c *Client) PurchaseTicketAsync(fromAccount string,
 func (c *Client) PurchaseTicket(fromAccount string,
 	spendLimit dcrutil.Amount, minConf *int, ticketAddress dcrutil.Address,
 	numTickets *int, poolAddress dcrutil.Address, poolFees *dcrutil.Amount,
-	expiry *int, noSplitTransaction *bool, purchaseTicketsSingleTransaction *bool) ([]*chainhash.Hash, error) {
+	expiry *int, noSplitTransaction *bool, multiOutputSstx *bool) ([]*chainhash.Hash, error) {
 
 	return c.PurchaseTicketAsync(fromAccount, spendLimit, minConf, ticketAddress,
-		numTickets, poolAddress, poolFees, expiry, noSplitTransaction, purchaseTicketsSingleTransaction).Receive()
+		numTickets, poolAddress, poolFees, expiry, noSplitTransaction, multiOutputSstx).Receive()
 }
 
 // SStx generation RPC call handling
